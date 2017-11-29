@@ -1,49 +1,435 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+    <title>Flow - JSMN</title>
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+    <link rel="stylesheet" href="css/reveal.css">
+    <!-- <link rel="stylesheet" href="css/theme/black.css"> -->
+    <link rel="stylesheet" href="css/theme/flow.css">
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <img class="img-flat" src="./images/flow-header.png">
+          JavaScript MN - November 2017
+          <aside class="notes">
+            - prompt: has anyone used Flow before? <br>
+            - prompt: has anyone used TypeScript? <br>
+            - this talk will be basics and opinions after spending some time with it <br>
+            <br>
+            won't be discussing: <br>
+            - setup <br>
+            - extreme detail <br>
+            <br>
+            - I'll be going through the slides fairly quickly, since this isn't inteded to teach complete syntax in one sitting
+          </aside>
+        </section>
+        <section>
+          Slides available at:
+          <br>
+          <br>
+          <a href="https://github.com/zachwolf/jsmn-nov-2017-flow">
+            github.com/zachwolf/jsmn-nov-2017-flow
+          </a>
+        </section>
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
 
-		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
-			Reveal.initialize({
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				]
-			});
-		</script>
-	</body>
+        <section>
+          <section>
+            <div class="social">
+              <div class="social-row">
+                <div class="social-icon">
+                  <img src="./images/wolf-logo.png" />
+                </div>
+                <div class="social-text">zachwolf.com</div>
+              </div>
+              <div class="social-row">
+                <div class="social-icon">
+                  <img src="./images/email-icon.png" />
+                </div>
+                <div class="social-text">z@ch.mu</div>
+              </div>
+              <div class="social-row">
+                <div class="social-icon">
+                  <img src="./images/twitter-logo.png" />
+                </div>
+                <div class="social-text">@hellozachwolf</div>
+              </div>
+              <div class="social-row">
+                <div class="social-icon">
+                  <img src="./images/github-logo.png" />
+                </div>
+                <div class="social-text">zachwolf</div>
+              </div>
+            </div>
+            <aside class="notes">
+              - Where to find me online <br>
+              - none of these are particularly relevant
+            </aside>
+          </section>
+          <section>
+            <div class="img-fit">
+              <img class="img-flat" src="./images/instagram-screenshot.png" />
+            </div>
+              <aside class="notes">
+                my best content
+              </aside>
+          </section>
+        </section>
+
+
+        <section data-background="#ffffff">
+          <div class="img-fit">
+            <img class="img-flat" src="./images/target-logo.png" />
+          </div>
+          <aside class="notes">
+            Why I'm qualified to talk about flow: <br>
+            - Senior engineer at target <br>
+            - working on Praxis (describe praxis + flow use) <br>
+            - we're looking for developers
+          </aside>
+        </section>
+
+
+        <section>
+          <div class="split">
+            <div class="split-chunk">
+              <img class="img-flat" src="./images/flow-icon.png">
+            </div>
+            <div class="split-chunk">
+              <div>
+                <div>Flow is:</div>
+                <ul>
+                  <li><span class="fragment fade-up">Static typing for JS</span></li>
+                  <li><span class="fragment fade-up">Open Source</span></li>
+                  <li><span class="fragment fade-up">Built by Facebook<span></li>
+                  <li><span class="fragment fade-up">Terrible...</span> <span class="fragment fade-up">but you should use it</span> <span class="fragment fade-up">(maybe)</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        <section>
+          <section>
+<pre><code class="hljs large-code" data-trim contenteditable>
+const name = "Zach"
+const instagramFollowers = 556
+const employed = true // sorry recruiters!
+</code></pre>
+            </code>
+            <aside class="notes">
+              - prompt: so what does static typing mean? <br>
+              - javascript is "untyped"
+            </aside>
+          </section>
+          <section>
+<pre><code class="hljs large-code" data-trim contenteditable>
+// @flow
+
+const name = 'Zach'
+const instagramFollowers = 556
+const employed = true
+</code></pre>
+          <aside class="notes">
+            converting from .js to flow: <br>
+            - add a comment <br>
+          </aside>
+          </section>
+          <section>
+<pre><code class="hljs large-code" data-trim contenteditable>
+// @flow
+
+const name: string = 'Zach'
+const instagramFollowers: number = 556
+const employed: boolean = true
+</code></pre>
+            <aside class="notes">
+              - flow can figure out a good amount of your content <br>
+            </aside>
+          </section>
+        </section>
+
+        <section>
+<pre><code class="hljs" data-trim contenteditable>
+// @flow
+
+type PersonType = {
+  name: string, followers: number, employed: boolean,
+  pets?: number,
+  status: ?string,
+}
+
+const self: PersonType = {
+  name: 'Zach', followers: 556, employed: true,
+  // pets: 2,
+  status: null,
+}
+</code></pre>
+          <aside class="notes">
+            Introduce new features: <br>
+            1. `type` declaration - flow isn't valid javascript<br>
+            2. `{ foo?: any }` - optional property <br>
+            3. `{ foo: ?any }` - `Maybe type`, can be null or undefined <br>
+          </aside>
+        </section>
+
+        <section>
+          <section>
+<pre><code class="hljs" data-trim contenteditable>
+// @flow
+
+type PersonType = {
+  name: string, followers: number, employed: boolean,
+}
+
+type PersonListType = Array&lt;PersonType&gt;
+
+const users: PersonListType = [
+  { name: 'zach', followers: 556, employed: true, },
+  { name: 'nathan', followers: 320, employed: true, },
+  // etc...
+]
+</code></pre>
+            <aside class="notes">
+              - introduce `Array<Any>` syntax
+            </aside>
+          </section>
+          <section>
+<pre><code class="hljs" data-trim contenteditable>
+// @flow
+
+type PersonType = {
+  name: string, followers: number, employed: boolean,
+}
+
+type PersonListType = PersonType[]
+</code></pre>            
+            <aside class="notes">
+              - short hand will be used from now on in slides
+            </aside>
+          </section>
+        </section>
+
+        <section>
+          <section>
+<pre><code class="hljs" data-trim contenteditable>
+// @flow
+
+function sumStringValues (strings: string[]): number {
+  return strings
+    .reduce((res, val) => res += parseInt(val, 10), 0)
+}
+
+const stringList: string[] = ['10', '20', '1234']
+
+console.log(sumStringValues(stringList)) // 1264
+</code></pre>
+            <aside class="notes">
+              functions are where it actually becomes useful
+            </aside>
+          </section>
+          <section>
+<pre><code class="hljs" data-trim contenteditable>
+// @flow
+
+function sumStringValues (strings: string[]): number {
+  return strings
+    .reduce((res, val) => res += parseInt(val, 10), 0)
+}
+
+console.log(sumStringValues('1', '2'))
+                             ^
+                  string. This type is incompatible
+                  with the expected param type of array type
+</code></pre>            
+            <aside class="notes">
+              - flow types can be passed through files and libraries <br>
+              - adding flow checking to your IDE will give instant feedback
+            </aside>
+          </section>
+        </section>
+
+        <section>
+<pre><code class="hljs" data-trim contenteditable>
+// @flow
+
+type PersonTupleType = [string, number, boolean]
+
+const users: PersonTupleType = ['Zach', 556, true]
+</code></pre>
+            <aside class="notes">
+              flow adds a few types that aren't in javascript. <br>
+              <br>
+              here is a tuple
+            </aside>
+        </section>
+
+        <section>
+          <div class="split">
+            <div class="split-chunk">
+              <div>
+                <ul>
+                  <li>Primitive</li>
+                  <li>Literal</li>
+                  <li>Mixed</li>
+                  <li>Any</li>
+                  <li>Maybe</li>
+                  <li>Variable</li>
+                  <li>Function</li>
+                  <li>Object</li>
+                  <li>Array</li>
+                  <li>Tuple</li>
+                  <li>Class</li>
+                </ul>
+              </div>
+            </div>
+            <div class="split-chunk">
+              <div>
+                <ul>
+                  <li>Type Aliases</li>
+                  <li>Opaque Type Aliases</li>
+                  <li>Interface</li>
+                  <li>Generic</li>
+                  <li>Union</li>
+                  <li>Intersection</li>
+                  <li>Typeof</li>
+                  <li>Type Casting Expressions</li>
+                  <li>Utility</li>
+                  <li>Module</li>
+                  <li>Comment</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <aside class="notes">
+            These are all the flow types, <br>
+            the docs explain them all well
+          </aside>
+        </section>
+
+        <section>
+          <section>
+<pre><code class="hljs" data-trim contenteditable>
+/**
+ * query param looks like `?sort=name(asc)'
+ * We need the 'asc' part
+ */
+
+function orderFromQueryParam (search) {
+  const params = search.match(/\?(.*)\((.*)\)/)
+  return params[2]
+}
+
+const { search } = window.location
+
+orderFromQueryParam(search)
+</code></pre>
+            <aside class="notes">
+              time for real code <br>
+              find the bug? <br>
+            </aside>
+          </section>
+          <section>
+<pre><code class="hljs" data-trim contenteditable>
+// @flow
+
+function orderFromQueryParam (search) {
+  const params = search.match(/\?(.*)\((.*)\)/)
+  return params[2]
+                ^ access of computed property/element.
+                  Computed property/element cannot be
+                  accessed on possibly null value
+}
+
+const { search } = window.location
+
+orderFromQueryParam(search)
+</code></pre>
+            <aside class="notes">
+              `.match` can return `null`, null doesn't have a second index
+            </aside>
+          </section>
+        </section>
+
+        <section>
+          <div class="img-fit">
+            <img class="img-flat" src="./images/single-file-screenshot.png" />
+          </div>
+          <aside class="notes">
+            find the bug in this file
+          </aside>
+        </section>
+
+        <section>
+          <div class="folder">
+            <div class="folder-icon">
+              <img src="./images/folder-icon.png" />
+            </div>
+            <div class="folder-text">1000-files-with-0-tests.zip</div>
+          </div>
+          <aside class="notes">
+            find the bug in this project <br>
+            and make sure your changes don't break anything else <br>
+            and get it done as fast as possible <br>
+            <br>
+            flow can help <br>
+          </aside>
+        </section>
+
+        <section>
+          <section>
+            So... <span class="fragment fade-up">Why is Flow terrible?</span>
+          </section>
+          <section>
+            <ul>
+              <li><span class="fragment fade-up">It's not JavaScript</span></li>
+              <li><span class="fragment fade-up">Community suport is lacking</span></li>
+              <li><span class="fragment fade-up">Best practices are still being standardized</span></li>
+            </ul>
+            <aside class="notes">
+              - it's its own weird syntax <br>
+              - most debugging is crawling through github issues <br>
+              - libraries offering flow types have competeing way of defining types, making combinations tricky
+            </aside>
+          </section>
+        </section>
+      </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+      // More info about config & dependencies:
+      // - https://github.com/hakimel/reveal.js#configuration
+      // - https://github.com/hakimel/reveal.js#dependencies
+      Reveal.initialize({
+        history: true,
+        dependencies: [
+          { src: 'plugin/markdown/marked.js' },
+          { src: 'plugin/markdown/markdown.js' },
+          { src: 'plugin/notes/notes.js', async: true },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        ]
+      });
+    </script>
+  </body>
 </html>
